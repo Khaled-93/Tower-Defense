@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     /*moteur du jeu*/
     clock_gettime(CLOCK_REALTIME, &begin_time);
 
-
+/*GIT*/
     /* Main loop over the frames... */
     while (!quit) {
         /*Get the time in nano second at the start of the frame */

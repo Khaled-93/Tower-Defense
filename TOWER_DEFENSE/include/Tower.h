@@ -1,6 +1,8 @@
 #ifndef __TOWER
 #define __TOWER 
 
+
+#include "Object.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,16 +10,17 @@
 
 
 
+
 typedef struct {
-    double x;
-    double y;
+    Object obj;
+    int score;
+    int mana;
+    /*ajouter les autres fonctionalités*/
 } Tower;
 
 
 
-
-
-Tower *init_Tower(double x, double y);
+Tower *init_tower(double x, double y);
 
 
 #endif

@@ -1,5 +1,5 @@
 CC = gcc
-OBJ = bin/Tower.o bin/Object.o bin/Graphisme.o bin/Sound.o
+OBJ = bin/Tower.o bin/Object.o bin/Graphisme.o bin/Sound.o bin/Monster.o bin/Path.o
 CFLAGS = -ansi -pedantic -Wall -g
 LDFLAGS = -lMLV -lm
 EXEC = Tower.exe
@@ -20,6 +20,11 @@ bin/Graphisme.o : src/Graphisme.c include/Graphisme.h include/Tower.h
 
 bin/Sound.o : src/Sound.c include/Sound.h 
 
+
+bin/Monster.o : src/Monster.c include/Monster.h
+
+
+bin/Path.o : src/Path.c include/Path.h
 
 clean:
 	rm $(EXEC)

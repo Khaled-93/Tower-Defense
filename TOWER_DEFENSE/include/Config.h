@@ -26,5 +26,8 @@
 #define SIZE_WALL 1     /*Wall thickness*/
 
 
+#define PV_MONSTER 100
+#define SPEED_MONSTER 0.09 /*a voir*/
+
 
 #endif

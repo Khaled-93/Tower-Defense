@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
     /*Manage of tower and base*/
     Object base_tower;
     Tower tower;
+    Monster monster;
 
 
     /*Manage of events*/
@@ -49,7 +50,7 @@ int main(int argc, char *argv[]) {
 
 
     /*generations of paths and enemys*/
-
+    /*monster = init_monster();*/
 
 
 

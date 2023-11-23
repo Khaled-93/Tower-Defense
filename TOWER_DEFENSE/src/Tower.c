@@ -1,9 +1,6 @@
 #include "../include/Tower.h"
 
 
-
-
-
 Tower *init_tower(double x, double y) {
     Tower *new;
     Object *obj;

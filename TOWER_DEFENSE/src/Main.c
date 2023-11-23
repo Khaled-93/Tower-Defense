@@ -24,6 +24,9 @@ int main(int argc, char *argv[]) {
     Tower tower;
     Monster monster;
 
+    /* initialisation of the grid */
+    char grid[SIZE_X][SIZE_Y];
+
 
     /*Manage of events*/
     int quit;
@@ -46,7 +49,9 @@ int main(int argc, char *argv[]) {
     /*initialisation of tower and base */
     tower = *init_tower(BASE_TOWER_X, BASE_TOWER_Y);
     base_tower = *init_object(tower.obj.x, tower.obj.y);
-
+    
+    generatePath(grid);
+    printGrid(grid);
 
 
     /*generations of paths and enemys*/

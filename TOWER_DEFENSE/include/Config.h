@@ -12,6 +12,8 @@
 #define SIZE_X 28 /* XSize of the game area */
 #define SIZE_Y 22 /* YSize of the game area */
 #define SCALE 20  /* Difference on size between game and it's graphical representation */
+#define MIN_TURN_COUNT 7 /* Nombre minimum de virages */
+#define MIN_PATH_LENGTH 75 /* Longueur minimale du chemin */
 
 #define SIGHT_TOWER 4 /*Vision of Tower*/
 

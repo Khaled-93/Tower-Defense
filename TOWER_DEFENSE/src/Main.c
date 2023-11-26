@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     Monster monster;
 
     /* initialisation of the grid */
-    char grid[SIZE_X][SIZE_Y];
+    char* grid[SIZE_X][SIZE_Y];
 
 
     /*Manage of events*/

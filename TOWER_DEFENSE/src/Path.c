@@ -10,18 +10,19 @@ void initializeGrid(char* grid[SIZE_X][SIZE_Y]) {
 }
 
 void printGrid(char* grid[SIZE_X][SIZE_Y]) {
-    int i,j;
+    int i, j;
     for (i = 0; i < SIZE_X; ++i) {
         for (j = 0; j < SIZE_Y; ++j) {
             if (strcmp(grid[i][j], "true") == 0) {
-                printf("* ");
+                printf("*");
             } else {
-                printf("%s ", grid[i][j]);
+                printf("%s", grid[i][j]);
             }
         }
         printf("\n");
     }
 }
+
 
 int manhattanDistance(Cell c1, Cell c2) {
     return abs(c1.row - c2.row) + abs(c1.col - c2.col);
@@ -33,123 +34,38 @@ int isValid(Cell cell) {
 
 void generatePath(char* grid[SIZE_X][SIZE_Y]) {
     Cell monsterNest;
-    int initialDirection;
+    Cell nextCell;
+    int pathLength, step, i, turnCount, currentDirection;
     int directions[][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    int turnCount = 0;
-    int pathLength = 0;
-    Cell currentCell;
-    int currentDirection;
-    int currentExtent = 0;
-    int randomValue;
-    int leftDirection;
-    int rightDirection;
-    int leftExtent;
-    int rightExtent;
-    Cell leftCell;
-    Cell rightCell;
-    int totalExtent;
-    int minDistance;
-    int tooClose;
-    int i, j;
-    Cell tempCell;
+    
+    initializeGrid(grid);
 
     monsterNest.row = rand() % (SIZE_X - 6) + 3;
     monsterNest.col = rand() % (SIZE_Y - 6) + 3;
 
-    currentCell = monsterNest;
-
-    initializeGrid(grid);
-
     grid[monsterNest.row][monsterNest.col] = "M";
 
-    initialDirection = rand() % 4;
+    pathLength = 0;
+    turnCount = 0;
+    currentDirection = rand() % 4; 
 
-    currentDirection = initialDirection;
+    while (pathLength < MIN_PATH_LENGTH || turnCount < MIN_TURN_COUNT) {
+        step = rand() % 4 + 1;
 
-    while (turnCount < MIN_TURN_COUNT || pathLength < MIN_PATH_LENGTH) {
-    currentExtent = 0;
-    while (currentExtent <= 2) {
-        randomValue = rand() % 4;
-        if (randomValue != 0) {
-            currentExtent++;
-        }
+        for (i = 0; i < step; ++i) {
+            nextCell.row = monsterNest.row + directions[currentDirection][0];
+            nextCell.col = monsterNest.col + directions[currentDirection][1];
 
-        currentCell.row += directions[currentDirection][0];
-        currentCell.col += directions[currentDirection][1];
-
-        if (!isValid(currentCell) || grid[currentCell.row][currentCell.col] != NULL) {
-            break;
-        }
-
-        minDistance = 1;
-        tooClose = 0;
-
-        for (i = -minDistance; i <= minDistance; ++i) {
-            for (j = -minDistance; j <= minDistance; ++j) {
-                tempCell.row = currentCell.row + i;
-                tempCell.col = currentCell.col + j;
-
-                if (isValid(tempCell) && grid[tempCell.row][tempCell.col] != NULL) {
-                    tooClose = 1;
-                    break;
-                }
-            }
-            if (tooClose) {
-                break;
-            }
-        }
-
-        if (tooClose || pathLength >= MIN_PATH_LENGTH) {
-            break;
-        }
-
-        grid[currentCell.row][currentCell.col] = "true";
-        pathLength++;
-    }
-
-        leftDirection = (currentDirection + 3) % 4;
-        rightDirection = (currentDirection + 1) % 4;
-
-        leftExtent = 0;
-        rightExtent = 0;
-
-        leftCell = currentCell;
-        while (leftExtent <= 2) {
-            leftCell.row += directions[leftDirection][0];
-            leftCell.col += directions[leftDirection][1];
-
-            if (!isValid(leftCell) || grid[leftCell.row][leftCell.col] != NULL) {
-                break;
-            }
-
-            leftExtent++;
-        }
-
-        rightCell = currentCell;
-        while (rightExtent <= 2) {
-            rightCell.row += directions[rightDirection][0];
-            rightCell.col += directions[rightDirection][1];
-
-            if (!isValid(rightCell) || grid[rightCell.row][rightCell.col] != NULL) {
-                break;
-            }
-
-            rightExtent++;
-        }
-
-        totalExtent = leftExtent + rightExtent;
-        if (totalExtent != 0) {
-            randomValue = rand() % totalExtent;
-            if (randomValue < leftExtent) {
-                currentDirection = leftDirection;
+            if (!isValid(nextCell) || grid[nextCell.row][nextCell.col] != NULL) {
+                currentDirection = rand() % 4;
             } else {
-                currentDirection = rightDirection;
+                grid[nextCell.row][nextCell.col] = "true";
+                monsterNest = nextCell;
+                pathLength++;
             }
         }
 
-        if (currentDirection != initialDirection) {
-            turnCount++;
-        }
+        currentDirection = rand() % 4;
+        turnCount++;
     }
 }
-

@@ -1,71 +1,156 @@
 #include "../include/Path.h"
 
-void initializeGrid(char* grid[SIZE_X][SIZE_Y]) {
+void printGrid(char grid[SIZE_X][SIZE_Y]) {
     int i, j;
-    for (i = 0; i < SIZE_X; ++i) {
-        for (j = 0; j < SIZE_Y; ++j) {
-            grid[i][j] = " ";
-        }
-    }
-}
-
-void printGrid(char* grid[SIZE_X][SIZE_Y]) {
-    int i, j;
-    for (i = 0; i < SIZE_X; ++i) {
-        for (j = 0; j < SIZE_Y; ++j) {
-            if (strcmp(grid[i][j], "true") == 0) {
-                printf("*");
-            } else {
-                printf("%s", grid[i][j]);
-            }
+    for (i = 0; i < SIZE_X; i++) {
+        for (j = 0; j < SIZE_Y; j++) {
+            printf("%c ", grid[i][j]);
         }
         printf("\n");
     }
 }
 
-
-int manhattanDistance(Cell c1, Cell c2) {
-    return abs(c1.row - c2.row) + abs(c1.col - c2.col);
+void initializeGrid(char grid[SIZE_X][SIZE_Y]) {
+    int i, j;
+    for (i = 0; i < SIZE_X; i++) {
+        for (j = 0; j < SIZE_Y; j++) {
+            grid[i][j] = ' ';
+        }
+    }
 }
 
-int isValid(Cell cell) {
-    return cell.row >= 0 && cell.row < SIZE_X && cell.col >= 0 && cell.col < SIZE_Y;
+int calculateExtent(Cell start, int direction, char grid[SIZE_X][SIZE_Y]) {
+    int extent = 0;
+    int currentRow = start.row;
+    int currentCol = start.col;
+
+    while (currentRow >= 0 && currentRow < SIZE_X && currentCol >= 0 && currentCol < SIZE_Y) {
+        extent++;
+        switch (direction) {
+            case 0:
+                currentRow--;
+                break;
+            case 1:
+                currentCol++;
+                break;
+            case 2:
+                currentRow++;
+                break;
+            case 3: 
+                currentCol--;
+                break;
+            default:
+                break;
+        }
+    }
+
+    return extent;
 }
 
-void generatePath(char* grid[SIZE_X][SIZE_Y]) {
+void generatePath(char grid[SIZE_X][SIZE_Y]) {
+    int numTurns, pathLength, currentDirection, i, totalExtent, randomValue, n, s, stepsToAdd;
+    int leftDirection, rightDirection;
+    int directions[4] = {0};
+    int* extents;
+    int* randomValues;
     Cell monsterNest;
-    Cell nextCell;
-    int pathLength, step, i, turnCount, currentDirection;
-    int directions[][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    
-    initializeGrid(grid);
 
+    initializeGrid(grid);
     monsterNest.row = rand() % (SIZE_X - 6) + 3;
     monsterNest.col = rand() % (SIZE_Y - 6) + 3;
 
-    grid[monsterNest.row][monsterNest.col] = "M";
+    grid[monsterNest.row][monsterNest.col] = 'M';
 
+    numTurns = 0;
     pathLength = 0;
-    turnCount = 0;
-    currentDirection = rand() % 4; 
+    currentDirection = 0;
 
-    while (pathLength < MIN_PATH_LENGTH || turnCount < MIN_TURN_COUNT) {
-        step = rand() % 4 + 1;
+    extents = malloc(4 * sizeof(int));
 
-        for (i = 0; i < step; ++i) {
-            nextCell.row = monsterNest.row + directions[currentDirection][0];
-            nextCell.col = monsterNest.col + directions[currentDirection][1];
+    for (i = 0; i < 4; i++) {
+        extents[i] = calculateExtent(monsterNest, i, grid);
+    }
 
-            if (!isValid(nextCell) || grid[nextCell.row][nextCell.col] != NULL) {
-                currentDirection = rand() % 4;
-            } else {
-                grid[nextCell.row][nextCell.col] = "true";
-                monsterNest = nextCell;
-                pathLength++;
-            }
+    totalExtent = extents[0] + extents[1] + extents[2] + extents[3];
+    randomValue = rand() % totalExtent;
+
+    for (i = 0; i < 4; i++) {
+        if (randomValue < extents[i]) {
+            currentDirection = i;
+            break;
+        } else {
+            randomValue -= extents[i];
+        }
+    }
+
+    while (numTurns < 7 || pathLength < 75) {
+        if (extents[currentDirection] <= 2) {
+            break;
         }
 
-        currentDirection = rand() % 4;
-        turnCount++;
+        n = extents[currentDirection];
+        randomValues = malloc(n * sizeof(int));
+        s = 0;
+
+        for (i = 0; i < n; i++) {
+            randomValues[i] = rand() % 4 < 3 ? 1 : 0;
+            s += randomValues[i];
+        }
+
+        stepsToAdd = s > 3 ? s : 3;
+
+        for (i = 0; i < stepsToAdd; i++) {
+            switch (currentDirection) {
+                case 0:
+                    monsterNest.row--;
+                    break;
+                case 1:
+                    monsterNest.col++;
+                    break;
+                case 2:
+                    monsterNest.row++;
+                    break;
+                case 3:
+                    monsterNest.col--;
+                    break;
+                default:
+                    break;
+            }
+
+            grid[monsterNest.row][monsterNest.col] = '*';
+            pathLength++;
+        }
+
+        leftDirection = (currentDirection + 3) % 4;
+        rightDirection = (currentDirection + 1) % 4;
+
+        extents[leftDirection] = calculateExtent(monsterNest, leftDirection, grid);
+        extents[rightDirection] = calculateExtent(monsterNest, rightDirection, grid);
+
+        totalExtent = extents[leftDirection] + extents[rightDirection];
+        randomValue = rand() % totalExtent;
+
+        if (randomValue < extents[leftDirection]) {
+            currentDirection = leftDirection;
+        } else {
+            currentDirection = rightDirection;
+        }
+
+        if (currentDirection != directions[0]) {
+            numTurns++;
+        }
+        directions[0] = currentDirection;
+
+        free(randomValues);
     }
+
+    grid[monsterNest.row][monsterNest.col] = 'P';
+    
+    if (numTurns >= 7 && pathLength >= 75) {
+        printf("Chemin généré avec succès!\n");
+    } else {
+        generatePath(grid);
+    }
+
+    free(extents);
 }

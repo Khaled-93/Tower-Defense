@@ -23,7 +23,6 @@ int manhattanDistance(Cell c1, Cell c2) {
     return abs(c1.row - c2.row) + abs(c1.col - c2.col);
 }
 
-
 int calculateExtent(Cell start, int direction, char grid[SIZE_X][SIZE_Y]) {
     int extent = 0;
     int currentRow = start.row;

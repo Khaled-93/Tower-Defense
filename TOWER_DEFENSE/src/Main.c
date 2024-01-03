@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     Monster monster;
 
     /* initialisation of the grid */
-    char grid[SIZE_X][SIZE_Y];
+    char grid[SIZE_Y][SIZE_X];
 
 
     /*Manage of events*/
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
         /* Display of the currentframe, samplefunction */
         /* THIS FUNCTION CALLS ONCE AND ONLY ONCE MLV_update_window */
         
-        draw_window(base_tower, tower/*ajouter le reste*/);
+        draw_window(base_tower, tower, grid/*ajouter le reste*/);
 
         /* Dealing with the events */
 

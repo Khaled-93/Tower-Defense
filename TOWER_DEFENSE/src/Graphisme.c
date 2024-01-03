@@ -35,6 +35,31 @@ void draw_tower(Tower tower) {
     }
 }
 
+void draw_grid(char grid[SIZE_Y][SIZE_X]) {
+    int i, j;
+    float cell_size = SCALE;
+    Uint8 red, green, blue, alpha;
+
+    for (i = 0; i < SIZE_Y; i++) {
+        for (j = 0; j < SIZE_X; j++) {
+            float x = j * cell_size;
+            float y = i * cell_size;
+
+            if (grid[i][j] == '*') {
+                MLV_convert_color_to_rgba(MLV_COLOR_GREEN, &red, &green, &blue, &alpha);
+                MLV_draw_filled_rectangle(x, y, cell_size, cell_size, MLV_convert_rgba_to_color(red, green, blue, alpha));
+            } else if (grid[i][j] == 'M') {
+                MLV_convert_color_to_rgba(MLV_COLOR_RED, &red, &green, &blue, &alpha);
+                MLV_draw_filled_rectangle(x, y, cell_size, cell_size, MLV_convert_rgba_to_color(red, green, blue, alpha));
+            } else if (grid[i][j] == 'P') {
+                MLV_convert_color_to_rgba(MLV_COLOR_BLUE, &red, &green, &blue, &alpha);
+                MLV_draw_filled_rectangle(x, y, cell_size, cell_size, MLV_convert_rgba_to_color(red, green, blue, alpha));
+            }
+        }
+    }
+}
+
+
 
 
 int title_screen(MLV_Image *image) {
@@ -119,7 +144,7 @@ void win_screen(){
 }
 
 
-void draw_window(Object base, Tower tower /*implementer le reste de la partie*/) {
+void draw_window(Object base, Tower tower, char grid[SIZE_Y][SIZE_X] /*implementer le reste de la partie*/) {
     static int init = 0;
     /*int i;*/
 
@@ -132,7 +157,9 @@ void draw_window(Object base, Tower tower /*implementer le reste de la partie*/)
     /* clean the window */
     MLV_clear_window(MLV_COLOR_WHITE);
 
-
+    /* draw paths */
+    draw_grid(grid);
+    
     /* draw Tower's spawn */
     draw_spawn(base);
 
@@ -144,7 +171,7 @@ void draw_window(Object base, Tower tower /*implementer le reste de la partie*/)
     draw_tower(tower);
 
     /* draw paths */
-    /*le faire en for*/
+    draw_grid(grid);
 
 }
 

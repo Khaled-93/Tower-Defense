@@ -13,10 +13,12 @@ typedef struct {
     int col;
 } Cell;
 
-void initializeGrid(char grid[SIZE_X][SIZE_Y]);
-void printGrid(char grid[SIZE_X][SIZE_Y]);
+void initializeGrid(char grid[SIZE_Y][SIZE_X]);
+void printGrid(char grid[SIZE_Y][SIZE_X]);
 int manhattanDistance(Cell c1, Cell c2);
-int calculateExtent(Cell start, int direction, char grid[SIZE_X][SIZE_Y]);
-void generatePath(char grid[SIZE_X][SIZE_Y]);
+int calculateExtent(Cell start, int direction, char grid[SIZE_Y][SIZE_X]);
+void generatePath(char grid[SIZE_Y][SIZE_X]);
+int isValidCell(int row, int col);
+int isValidMove(int row, int col, int currentDirection, char grid[SIZE_Y][SIZE_X]);
 
 #endif

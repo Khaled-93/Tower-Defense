@@ -34,13 +34,13 @@ int title_screen(MLV_Image *image) ;
 
 void draw_tower(Tower tower) ;
 
-
+void draw_grid(char grid[SIZE_Y][SIZE_X]);
 
 void buttons();
 
 
 
-void draw_window(Object base, Tower tower /*implementer le reste de la partie*/);
+void draw_window(Object base, Tower tower, char grid[SIZE_Y][SIZE_X]/*implementer le reste de la partie*/);
 
 void help_window(int width, int height) ;
 

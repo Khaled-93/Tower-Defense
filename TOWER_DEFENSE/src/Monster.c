@@ -17,8 +17,31 @@ Monster *init_monster(double x , double y){
 
     tmp->obj = *obj;
     tmp->pv = PV_MONSTER;
-    tmp->speed = SPEED_MONSTER; /*a voir*/
+    tmp->speed = SPEED_MONSTER;
 
 
     return tmp;
+}
+
+void addToListMonster(ListMonster *list, Monster *monster) {
+    NodeMonster *newNode = (NodeMonster *)malloc(sizeof(NodeMonster));
+    if (newNode == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire pour le nouvel élément de la liste\n");
+        exit(EXIT_FAILURE);
+    }
+
+    newNode->elem = monster;
+    newNode->next = list->head;
+    list->head = newNode;
+}
+
+void freeMListMonster(ListMonster *list) {
+    NodeMonster *current = list->head;
+    while (current != NULL) {
+        NodeMonster *next = current->next;
+        free(current->elem);
+        free(current);
+        current = next;
+    }
+    free(list);
 }

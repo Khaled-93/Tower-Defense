@@ -15,6 +15,7 @@
 
 
 int main(int argc, char *argv[]) {
+    int bfor;
     /*Manage of position*/
     /*int i, j;*/
 
@@ -26,6 +27,10 @@ int main(int argc, char *argv[]) {
 
     /* initialisation of the grid */
     char grid[SIZE_Y][SIZE_X];
+
+    /*List of monsters*/
+    int nb_monster = 0;
+    ListObject ListMonster;
 
 
     /*Manage of events*/
@@ -55,6 +60,9 @@ int main(int argc, char *argv[]) {
 
 
     /*generations of paths and enemys*/
+    /*for(bfor = 0; bfor < nb_monster; bfor++){
+        
+    }*/
     /*monster = init_monster();*/
 
 

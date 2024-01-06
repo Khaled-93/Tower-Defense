@@ -21,12 +21,19 @@ typedef struct{
     Monster_Direction direction;
 }Monster;
 
+typedef struct NodeMonster {
+    Monster *elem;
+    struct NodeMonster *next;
+} NodeMonster;
+
+typedef struct {
+    NodeMonster *head;
+} ListMonster;
 
 
 
-
-
-
-
+Monster *init_monster(double x , double y);
+void addToListMonster(ListMonster *list, Monster *monster);
+void freeMListMonster(ListMonster *list);
 
 #endif

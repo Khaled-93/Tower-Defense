@@ -116,8 +116,6 @@ int calculateExtent(Cell start, int direction, char grid[SIZE_Y][SIZE_X]) {
         if (grid[currentRow+(2*dRow)][currentCol+(2*dCol)] == '*' || grid[currentRow+(2*dCol)][currentCol+(2*dCol)] == 'M' && (currentCol+(2*dCol))< SIZE_X && (currentRow+(2*dRow))< SIZE_Y) {
             break;
         }
-        
-
 
         extent++;
 
